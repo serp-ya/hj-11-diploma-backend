@@ -15,7 +15,11 @@ app.use(bodyParser.urlencoded({"extended": true}));
 app.use(bodyParser.json());
 
 // Middleware для CORS
-app.use(cors());
+const corsOptions = {
+  origin: 'https://serp-ya.github.io',
+  optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+};
+app.use(cors(corsOptions));
 
 // Middleware для работы с сессиями
 app.use(session({
