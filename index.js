@@ -17,7 +17,8 @@ app.use(bodyParser.json());
 // Middleware для CORS
 const corsOptions = {
   origin: 'https://serp-ya.github.io',
-  optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+  credentials: true,
+  optionsSuccessStatus: 200
 };
 app.use(cors(corsOptions));
 
