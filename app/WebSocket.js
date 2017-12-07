@@ -77,12 +77,14 @@ module.exports = (config) => {
           }
         });
 
-        replyMessage.message = 'Сожалеем, но администраторов нет онлайн, заходите позже или пишите на почту';
-        
-        if (!adminIsOnline) {
-          ws.send(
-            JSON.stringify(replyMessage)
-          );
+        if (replyMessage.eventId === 'incomingMessage') {
+          replyMessage.message = 'Сожалеем, но администраторов нет онлайн, заходите позже или пишите на почту';
+
+          if (!adminIsOnline) {
+            ws.send(
+              JSON.stringify(replyMessage)
+            );
+          }
         }
       }
     });
