@@ -6,6 +6,7 @@ module.exports = (app, db) => {
 
   app.get(usersCartApiPath, (req, res) => {
     try {
+      const queryParams = req.query;
       const sessionId = req.session.id;
       const sessionIdSelector = {'_id': sessionId};
 
@@ -18,6 +19,14 @@ module.exports = (app, db) => {
 
           return sendNotFound(res);
         }
+
+        if (queryParams.count) {
+          const productsCount = cart.goods.reduce((result, good) => {
+            return result += good.count;
+          }, 0);
+          return res.send({message: 'User count goods in cart ', count: productsCount});
+        }
+
         return res.send({message: 'User cart', cart: cart});
       })();
 

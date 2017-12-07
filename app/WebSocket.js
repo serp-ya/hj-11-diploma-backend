@@ -68,11 +68,22 @@ module.exports = (config) => {
 
         }
 
+        let adminIsOnline = false;
+
         wss.clients.forEach(client => {
           if (client.isAdmin) {
             client.send(JSON.stringify(replyMessage));
+            adminIsOnline = true;
           }
         });
+
+        replyMessage.message = 'Сожалеем, но администраторов нет онлайн, заходите позже или пишите на почту';
+        
+        if (!adminIsOnline) {
+          ws.send(
+            JSON.stringify(replyMessage)
+          );
+        }
       }
     });
 
