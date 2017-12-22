@@ -105,7 +105,7 @@ module.exports = (app, db) => {
       (async function() {
         const oldDataArray = await usersCartCollection.findOne(sessionIdSelector);
         const cartData = oldDataArray.goods;
-        const indexOfUpdatableGood = cartData.findIndex(good => good['_id'] === updatableGood['_id']);
+        const indexOfUpdatableGood = cartData.findIndex(good => good['_id'] == updatableGood['_id']);
 
         cartData[indexOfUpdatableGood].count = updatableGood.count;
         usersCartCollection.findOneAndUpdate(sessionIdSelector, {$set: {"goods": cartData}});
@@ -138,7 +138,7 @@ module.exports = (app, db) => {
           }
 
           const cartData = oldDataArray.goods;
-          const indexOfIncomingGood = cartData.findIndex(good => good['_id'] === deletableGood['_id']);
+          const indexOfIncomingGood = cartData.findIndex(good => good['_id'] == deletableGood['_id']);
 
           if (deleteParams.all) {
             cartData.splice(0);
