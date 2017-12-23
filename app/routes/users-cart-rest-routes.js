@@ -11,19 +11,18 @@ module.exports = (app, db) => {
       const sessionIdSelector = {'_id': sessionId};
 
       (async function() {
-        const cart = await usersCartCollection.findOne(sessionIdSelector, {'_id': 0});
-
-        if (!cart) {
-          return sendNotFound(res);
-        } else if (cart && Array.isArray(cart.goods) && !cart.goods.length) {
-
-          return sendNotFound(res);
-        }
+        let cart = await usersCartCollection.findOne(sessionIdSelector, {'_id': 0});
+        cart = cart ? cart : {};
 
         if (queryParams.count) {
-          const productsCount = cart.goods.reduce((result, good) => {
-            return result += good.count;
-          }, 0);
+          let productsCount;
+          if (Array.isArray(cart.goods)) {
+            productsCount = cart.goods.reduce((result, good) => {
+              return result += good.count;
+            }, 0);
+          } else {
+            productsCount = 0;
+          }
           return res.send({message: 'User count goods in cart ', count: productsCount});
         }
 
